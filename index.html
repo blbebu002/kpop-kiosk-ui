@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>팬 응원 메시지 키오스크</title>
     <style>
+        /* 기본 배경 및 레이아웃 설정 */
         body {
             font-family: 'Malgun Gothic', sans-serif;
-            background-color: #FFFF99; /* 문서 배경색 참조 */
+            background-color: #FFFF99; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,81 +16,318 @@
             margin: 0;
             text-align: center;
         }
+        
+        /* 키오스크 화면 틀 */
         .screen {
-            display: none; /* 기본적으로 화면을 숨김 */
-            width: 300px;
-            padding: 20px;
+            display: none; 
+            width: 320px;
+            height: 520px;
+            padding: 30px 20px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
         .screen.active {
-            display: block; /* 활성화된 화면만 보여줌 */
+            display: block; 
         }
-        button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
+        
+        /* 텍스트 스타일 */
+        h3 { font-size: 18px; margin-top: 0; margin-bottom: 5px; line-height: 1.4; }
+        p.sub-text { font-size: 12px; color: gray; margin-bottom: 20px; }
+        
+        /* 입력창 스타일 */
+        input[type="text"], textarea {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        textarea { resize: none; height: 80px; }
+
+        /* 하단 '다음 단계' 버튼 */
+        button.next-btn {
+            width: 90%;
             padding: 15px;
             border: none;
-            border-radius: 8px;
-            background-color: #f0f0f0;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button.next-btn {
+            border-radius: 10px;
             background-color: #333;
             color: white;
-            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 30px;
+            left: 5%;
+            transition: 0.3s;
         }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        
+        /* 비활성화된 버튼 스타일 */
+        button.next-btn:disabled {
+            background-color: #e0e0e0;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        /* 이미지 그리드 (그룹 및 멤버 선택용) */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 60px; /* 하단 버튼 영역 확보 */
+        }
+        .option-item {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* 선택되지 않은 기본 이미지 (반투명) */
+        .option-img {
+            width: 100%;
+            height: 120px;
+            background-color: #eee;
+            border-radius: 12px;
+            object-fit: cover;
+            opacity: 0.4; /* 반투명 처리 */
+            transition: all 0.3s ease;
+        }
+        
+        /* 이미지가 선택되었을 때 (불투명 + 테두리 강조) */
+        .option-item.selected .option-img {
+            opacity: 1; 
+            border: 3px solid #FFD700; 
+            transform: scale(1.05); /* 살짝 커지는 효과 */
+        }
+        .option-text {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+        }
+        .option-item.selected .option-text {
+            color: #000;
+        }
+
+        /* 감정 버튼 스타일 */
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .emotion-btn {
+            padding: 12px 0;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: #fafafa;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .emotion-btn.selected {
+            background-color: #333;
+            color: white;
+            border-color: #333;
         }
     </style>
 </head>
 <body>
 
+    <!-- 1단계: 닉네임 입력 (제일 첫 화면으로 변경) -->
     <div id="screen1" class="screen active">
-        <h3>ppi123 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
-        <button>BTS</button>
-        <button>TOMORROW X TOGETHER</button>
-        <button>ENHYPEN</button>
-        <button style="background-color: #ddd;">ILLIT</button>
-        <button class="next-btn" onclick="nextStep(2)">다음 단계</button>
-    </div>
-
-    <div id="screen2" class="screen">
-        <h3>ppi123 님,<br>최종 수신자를 선택하세요</h3>
-        <button>YUNAH</button>
-        <button>MINJU</button>
-        <button>MOKA</button>
-        <button>WONHEE</button>
-        <button>IROHA</button>
-        <button class="next-btn" onclick="nextStep(3)">다음 단계</button>
-    </div>
-
-    <div id="screen3" class="screen">
+        <br><br>
         <h3>닉네임을 입력해주세요</h3>
-        <p style="font-size: 12px; color: gray;">한글, 영문(소문자), 숫자만 사용 가능(10자 이내)</p>
-        <input type="text" placeholder="닉네임 입력">
-        <button class="next-btn" onclick="alert('다음 감정 선택 화면으로 넘어갑니다!')">다음 단계</button>
+        <p class="sub-text">한글, 영문(소문자), 숫자만 사용 가능(10자 이내)</p>
+        <input type="text" id="nicknameInput" placeholder="닉네임 입력" oninput="checkNickname()">
+        <button id="btn1" class="next-btn" onclick="saveNickname()" disabled>다음 단계</button>
+    </div>
+
+    <!-- 2단계: 그룹 선택 -->
+    <div id="screen2" class="screen">
+        <h3><span class="userName"></span> 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
+        <p class="sub-text">원하는 그룹의 이미지를 터치해주세요.</p>
+        <div class="grid-container" id="groupGrid">
+            <!-- 이미지 src 부분에 실제 이미지 링크를 넣으시면 됩니다 -->
+            <div class="option-item" onclick="selectSingleOption('group', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=BTS" class="option-img" alt="BTS">
+                <span class="option-text">BTS</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('group', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=TXT" class="option-img" alt="TXT">
+                <span class="option-text">TOMORROW X TOGETHER</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('group', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=ENHYPEN" class="option-img" alt="ENHYPEN">
+                <span class="option-text">ENHYPEN</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('group', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=ILLIT" class="option-img" alt="ILLIT">
+                <span class="option-text">ILLIT</span>
+            </div>
+        </div>
+        <button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button>
+    </div>
+
+    <!-- 3단계: 최종 수신자 선택 -->
+    <div id="screen3" class="screen">
+        <h3><span class="userName"></span> 님,<br>최종 수신자를 선택하세요</h3>
+        <div class="grid-container" id="memberGrid">
+            <div class="option-item" onclick="selectSingleOption('member', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=YUNAH" class="option-img" alt="YUNAH">
+                <span class="option-text">YUNAH</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('member', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=MINJU" class="option-img" alt="MINJU">
+                <span class="option-text">MINJU</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('member', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=MOKA" class="option-img" alt="MOKA">
+                <span class="option-text">MOKA</span>
+            </div>
+            <div class="option-item" onclick="selectSingleOption('member', this)">
+                <img src="https://via.placeholder.com/150/cccccc/ffffff?text=WONHEE" class="option-img" alt="WONHEE">
+                <span class="option-text">WONHEE</span>
+            </div>
+        </div>
+        <button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button>
+    </div>
+
+    <!-- 4단계: 감정 선택 -->
+    <div id="screen4" class="screen">
+        <h3><span class="userName"></span> 님,<br>지금 이 순간의 감정을 선택해주세요</h3>
+        <p class="sub-text" style="margin-bottom: 10px;">선택한 감정은 색으로 기록되며,<br>최대 3개까지 선택 가능합니다.</p>
+        <div class="emotion-grid">
+            <div class="emotion-btn" onclick="toggleEmotion(this)">설렘</div>
+            <div class="emotion-btn" onclick="toggleEmotion(this)">감동</div>
+            <div class="emotion-btn" onclick="toggleEmotion(this)">행복</div>
+            <div class="emotion-btn" onclick="toggleEmotion(this)">긴장</div>
+            <div class="emotion-btn" onclick="toggleEmotion(this)">평온</div>
+            <div class="emotion-btn" onclick="toggleEmotion(this)">아쉬움</div>
+        </div>
+        <button id="btn4" class="next-btn" onclick="nextStep(5)" disabled>다음 단계</button>
+    </div>
+
+    <!-- 5단계: 응원 메시지 작성 -->
+    <div id="screen5" class="screen">
+        <h3><span class="userName"></span> 님,<br>아티스트에게 응원의 말을 남겨주세요</h3>
+        <p class="sub-text">작성된 메시지는 실제 아티스트에게 전달됩니다.<br>최대 100자 작성 가능<br><span style="font-size:10px;">*부적절한 내용은 전달이 제외될 수 있습니다.</span></p>
+        <textarea id="messageInput" placeholder="응원의 메시지를 남겨주세요." maxlength="100" oninput="checkMessage()"></textarea>
+        <button id="btn5" class="next-btn" onclick="submitData()" disabled>아티스트에게 전송하기</button>
+    </div>
+
+    <!-- 6단계: 영수증 출력 중 (자동 전환됨) -->
+    <div id="screen6" class="screen" style="display: none; align-items: center; flex-direction: column; justify-content: center;">
+        <h3><span class="userName"></span> 님,<br>기록이 영수증으로 출력 중입니다</h3>
+        <p class="sub-text">이 기록은 월간 아카이브에 포함됩니다.</p>
+        <div style="margin: 40px 0;">
+            <h2 style="margin:0;">🧾 TODAY'S RECORD</h2>
+            <p style="font-weight: bold; color: #333; animation: blink 1s infinite;">잠시만 기다려주세요...</p>
+        </div>
+    </div>
+
+    <!-- 7단계: 출력 완료 (자동 초기화됨) -->
+    <div id="screen7" class="screen" style="display: none; align-items: center; flex-direction: column; justify-content: center;">
+        <h3 style="color: #4CAF50; font-size: 24px;">기록이 출력되었습니다!</h3>
+        <p style="font-weight: bold;">전광판에서 나의 응원 빛을 확인하세요</p>
+        <p class="sub-text" style="margin-top: 50px;">잠시후 초기화면으로 돌아갑니다...</p>
     </div>
 
     <script>
-        // 다음 화면으로 넘어가는 기능을 담당하는 JavaScript
-        function nextStep(stepNumber) {
-            // 모든 화면을 숨김
-            document.querySelectorAll('.screen').forEach(function(el) {
-                el.classList.remove('active');
+        // 애니메이션용 깜빡임 효과 CSS 동적 추가
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }`;
+        document.head.appendChild(style);
+
+        // 1. 닉네임 입력 시에만 버튼 활성화
+        function checkNickname() {
+            const input = document.getElementById('nicknameInput').value;
+            document.getElementById('btn1').disabled = input.trim() === "";
+        }
+
+        // 닉네임을 저장하고 모든 <span class="userName"></span> 요소에 텍스트를 뿌려줌
+        function saveNickname() {
+            const nickname = document.getElementById('nicknameInput').value;
+            document.querySelectorAll('.userName').forEach(el => {
+                el.innerText = nickname;
             });
-            // 요청받은 번호의 화면만 보여줌
-            document.getElementById('screen' + stepNumber).classList.add('active');
+            nextStep(2);
+        }
+
+        // 2. 공통 화면 이동 로직
+        function nextStep(step) {
+            // 모든 화면 숨김
+            document.querySelectorAll('.screen').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none'; 
+            });
+            
+            const nextScreen = document.getElementById('screen' + step);
+            
+            // 6단계(출력 중), 7단계(출력 완료)는 flex 레이아웃으로 가운데 정렬 적용 후 자동 타이머 설정
+            if (step === 6) {
+                nextScreen.style.display = 'flex';
+                setTimeout(() => { nextStep(7); }, 3000); // 3초 뒤 완료 화면으로
+            } else if (step === 7) {
+                nextScreen.style.display = 'flex';
+                setTimeout(() => { location.reload(); }, 4000); // 4초 뒤 완전 처음으로 새로고침
+            } else {
+                nextScreen.classList.add('active');
+                nextScreen.style.display = 'block';
+            }
+        }
+
+        // 3. 이미지 선택 (그룹, 멤버) 로직
+        function selectSingleOption(type, element) {
+            // 형제 요소들의 selected 클래스 제거 (단일 선택)
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            // 클릭된 이미지만 선택 처리
+            element.classList.add('selected');
+
+            // 이미지가 하나라도 선택되면 다음 단계 버튼 활성화
+            if (type === 'group') document.getElementById('btn2').disabled = false;
+            if (type === 'member') document.getElementById('btn3').disabled = false;
+        }
+
+        // 4. 감정 선택 로직 (최대 3개 제한)
+        function toggleEmotion(element) {
+            const parent = element.parentElement;
+            const currentSelected = parent.querySelectorAll('.selected').length;
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected'); // 이미 선택된 걸 누르면 해제
+            } else {
+                if (currentSelected < 3) {
+                    element.classList.add('selected'); // 3개 미만일 때만 추가
+                } else {
+                    alert("감정은 최대 3개까지만 선택할 수 있습니다.");
+                }
+            }
+            
+            // 감정이 1개 이상 선택되어야 다음 버튼 활성화
+            const newSelectedCount = parent.querySelectorAll('.selected').length;
+            document.getElementById('btn4').disabled = newSelectedCount === 0;
+        }
+
+        // 5. 메시지 입력 로직
+        function checkMessage() {
+            const input = document.getElementById('messageInput').value;
+            document.getElementById('btn5').disabled = input.trim() === "";
+        }
+
+        // 전송 버튼 클릭 시 출력 화면으로 이동
+        function submitData() {
+            nextStep(6);
         }
     </script>
-
 </body>
 </html>
