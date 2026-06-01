@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팬 응원 메시지 키오스크</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #FFFF99; /* 문서 배경색 참조 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .screen {
+            display: none; /* 기본적으로 화면을 숨김 */
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .screen.active {
+            display: block; /* 활성화된 화면만 보여줌 */
+        }
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button.next-btn {
+            background-color: #333;
+            color: white;
+            margin-top: 20px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen1" class="screen active">
+        <h3>ppi123 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
+        <button>BTS</button>
+        <button>TOMORROW X TOGETHER</button>
+        <button>ENHYPEN</button>
+        <button style="background-color: #ddd;">ILLIT</button>
+        <button class="next-btn" onclick="nextStep(2)">다음 단계</button>
+    </div>
+
+    <div id="screen2" class="screen">
+        <h3>ppi123 님,<br>최종 수신자를 선택하세요</h3>
+        <button>YUNAH</button>
+        <button>MINJU</button>
+        <button>MOKA</button>
+        <button>WONHEE</button>
+        <button>IROHA</button>
+        <button class="next-btn" onclick="nextStep(3)">다음 단계</button>
+    </div>
+
+    <div id="screen3" class="screen">
+        <h3>닉네임을 입력해주세요</h3>
+        <p style="font-size: 12px; color: gray;">한글, 영문(소문자), 숫자만 사용 가능(10자 이내)</p>
+        <input type="text" placeholder="닉네임 입력">
+        <button class="next-btn" onclick="alert('다음 감정 선택 화면으로 넘어갑니다!')">다음 단계</button>
+    </div>
+
+    <script>
+        // 다음 화면으로 넘어가는 기능을 담당하는 JavaScript
+        function nextStep(stepNumber) {
+            // 모든 화면을 숨김
+            document.querySelectorAll('.screen').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            // 요청받은 번호의 화면만 보여줌
+            document.getElementById('screen' + stepNumber).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
