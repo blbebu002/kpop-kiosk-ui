@@ -145,7 +145,7 @@
             gap: 15px; 
         }
         .emotion-btn {
-            padding: 25px 0; 
+            padding: 35px 0; 
             border: none;
             border-radius: 16px; 
             background: white;
@@ -169,28 +169,28 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .receipt-img {
-            max-width: 220px; /* 영수증이 너무 커지지 않도록 제한 */
+            max-width: 220px; 
         }
         .display-img {
-            border-radius: 12px; /* 전광판 둥근 모서리 */
+            border-radius: 12px; 
         }
     </style>
 </head>
 <body>
 
-    <!-- 1단계: 닉네임 입력 -->
+    <!-- 1단계: 닉네임 입력 (즉각 반영을 위해 onkeyup 이벤트 추가) -->
     <div id="screen1" class="screen active">
         <div class="scroll-content" style="display: flex; flex-direction: column; justify-content: center;">
             <h3>닉네임을 입력해주세요</h3>
             <p class="sub-text">한글, 영문(소문자), 숫자만 사용 가능(10자 이내)</p>
-            <input type="text" id="nicknameInput" placeholder="닉네임 입력" oninput="checkNickname()">
+            <input type="text" id="nicknameInput" placeholder="닉네임 입력" oninput="checkNickname()" onkeyup="checkNickname()">
         </div>
         <div class="bottom-area">
             <button id="btn1" class="next-btn" onclick="saveNickname()" disabled>다음 단계</button>
         </div>
     </div>
 
-    <!-- 2단계: 그룹 선택 -->
+    <!-- 2단계: 그룹 선택 (이미지 주소 및 순서 업데이트 완료) -->
     <div id="screen2" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
@@ -198,26 +198,45 @@
         </div>
         <div class="scroll-content">
             <div class="grid-container" id="groupGrid">
+                <!-- BTS -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BTS" class="option-img" alt="BTS"><span class="option-text">BTS</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B0%A9%ED%83%84.png" class="option-img" alt="BTS">
+                    <span class="option-text">BTS</span>
                 </div>
+                <!-- 투모로우바이투게더 -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TXT" class="option-img" alt="TXT"><span class="option-text">TOMORROW X TOGETHER</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EB%B0%94%ED%88%AC.png" class="option-img" alt="TXT">
+                    <span class="option-text">TOMORROW X TOGETHER</span>
                 </div>
+                <!-- 엔하이픈 -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ENHYPEN" class="option-img" alt="ENHYPEN"><span class="option-text">ENHYPEN</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%97%94%ED%95%98%EC%9D%B4%ED%94%88.png" class="option-img" alt="ENHYPEN">
+                    <span class="option-text">ENHYPEN</span>
                 </div>
+                <!-- 아일릿 -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ILLIT" class="option-img" alt="ILLIT"><span class="option-text">ILLIT</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%95%84%EC%9D%BC%EB%A6%BF.png" class="option-img" alt="ILLIT">
+                    <span class="option-text">ILLIT</span>
                 </div>
+                <!-- 르세라핌 -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=LE+SSERAFIM" class="option-img" alt="LE SSERAFIM"><span class="option-text">LE SSERAFIM</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%A5%B4%EC%84%B8%EB%9D%BC%ED%95%8C.png" class="option-img" alt="LE SSERAFIM">
+                    <span class="option-text">LE SSERAFIM</span>
                 </div>
+                <!-- 투어스 -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TWS" class="option-img" alt="TWS"><span class="option-text">TWS</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EC%96%B4%EC%8A%A4.png" class="option-img" alt="TWS">
+                    <span class="option-text">TWS</span>
                 </div>
+                <!-- 코르티스 (원본 이미지 링크로 변환 적용) -->
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BOYNEXTDOOR" class="option-img" alt="BOYNEXTDOOR"><span class="option-text">BOYNEXTDOOR</span>
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/main/%EC%BD%94%EB%A5%B4%ED%8B%B0%EC%8A%A4.png" class="option-img" alt="CORTIS">
+                    <span class="option-text">CORTIS</span>
+                </div>
+                <!-- 보이넥스트도어 -->
+                <div class="option-item" onclick="selectSingleOption('group', this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B3%B4%EC%9D%B4%EB%84%A5%EC%8A%A4%ED%8A%B8%EB%8F%84%EC%96%B4.png" class="option-img" alt="BOYNEXTDOOR">
+                    <span class="option-text">BOYNEXTDOOR</span>
                 </div>
             </div>
         </div>
@@ -272,7 +291,7 @@
         <div class="bottom-area"><button id="btn5" class="next-btn" onclick="submitData()" disabled>아티스트에게 전송하기</button></div>
     </div>
 
-    <!-- 6단계: 영수증 출력 중 (이미지 추가됨) -->
+    <!-- 6단계: 영수증 출력 중 -->
     <div id="screen6" class="screen" style="justify-content: center; align-items: center; text-align: center;">
         <div style="padding: 20px; width: 100%; box-sizing: border-box;">
             <h3 style="color: #333; font-size: 20px;"><span class="userName"></span> 님,<br>기록이 영수증으로 출력 중입니다</h3>
@@ -284,7 +303,7 @@
         </div>
     </div>
 
-    <!-- 7단계: 출력 완료 (이미지 추가됨) -->
+    <!-- 7단계: 출력 완료 -->
     <div id="screen7" class="screen" style="justify-content: center; align-items: center; text-align: center;">
         <div style="padding: 20px; width: 100%; box-sizing: border-box;">
             <h3 style="color: #333; font-size: 22px; margin-bottom: 5px;">기록이 출력되었습니다!</h3>
@@ -301,9 +320,16 @@
         style.innerHTML = `@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }`;
         document.head.appendChild(style);
 
+        // 닉네임 입력 체크 로직 업데이트
         function checkNickname() {
-            const input = document.getElementById('nicknameInput').value;
-            document.getElementById('btn1').disabled = input.trim() === "";
+            const inputVal = document.getElementById('nicknameInput').value;
+            const btn = document.getElementById('btn1');
+            
+            if (inputVal.trim().length > 0) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
         }
 
         function saveNickname() {
