@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>팬 응원 메시지 키오스크</title>
     <style>
-        /* 1. 전체 색감 (연보라 톤) 및 기본 설정 */
+        /* 1. 전체 색감 및 기본 설정 */
         body {
             font-family: 'Malgun Gothic', sans-serif;
             background-color: #F3E8FF; 
@@ -17,7 +17,7 @@
             text-align: center;
         }
         
-        /* 2. 화면비 9:16 적용 및 레이아웃 개선 */
+        /* 2. 화면비 9:16 적용 */
         .screen {
             display: none; 
             width: 360px;   
@@ -98,7 +98,7 @@
             box-shadow: none;
         }
 
-        /* 그리드 컨테이너 (그룹 및 멤버) */
+        /* 그리드 컨테이너 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -111,7 +111,7 @@
             align-items: center;
         }
         
-        /* 이미지 아이콘 비율 고증 (1:1 비율 고정) */
+        /* 이미지 아이콘 비율 고증 */
         .option-img {
             width: 100%;
             aspect-ratio: 1 / 1; 
@@ -138,7 +138,7 @@
             color: #9333EA; 
         }
 
-        /* 감정 버튼 스타일 (2열 및 크기 확대) */
+        /* 감정 버튼 스타일 (2열) */
         .emotion-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -160,10 +160,25 @@
             transform: scale(0.95);
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* 완료 화면 이미지 스타일 */
+        .result-img {
+            width: 85%;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .receipt-img {
+            max-width: 220px; /* 영수증이 너무 커지지 않도록 제한 */
+        }
+        .display-img {
+            border-radius: 12px; /* 전광판 둥근 모서리 */
+        }
     </style>
 </head>
 <body>
 
+    <!-- 1단계: 닉네임 입력 -->
     <div id="screen1" class="screen active">
         <div class="scroll-content" style="display: flex; flex-direction: column; justify-content: center;">
             <h3>닉네임을 입력해주세요</h3>
@@ -175,6 +190,7 @@
         </div>
     </div>
 
+    <!-- 2단계: 그룹 선택 -->
     <div id="screen2" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
@@ -183,72 +199,210 @@
         <div class="scroll-content">
             <div class="grid-container" id="groupGrid">
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BTS" class="option-img" alt="BTS">
-                    <span class="option-text">BTS</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BTS" class="option-img" alt="BTS"><span class="option-text">BTS</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TXT" class="option-img" alt="TXT">
-                    <span class="option-text">TOMORROW X TOGETHER</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TXT" class="option-img" alt="TXT"><span class="option-text">TOMORROW X TOGETHER</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ENHYPEN" class="option-img" alt="ENHYPEN">
-                    <span class="option-text">ENHYPEN</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ENHYPEN" class="option-img" alt="ENHYPEN"><span class="option-text">ENHYPEN</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ILLIT" class="option-img" alt="ILLIT">
-                    <span class="option-text">ILLIT</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=ILLIT" class="option-img" alt="ILLIT"><span class="option-text">ILLIT</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=LE+SSERAFIM" class="option-img" alt="LE SSERAFIM">
-                    <span class="option-text">LE SSERAFIM</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=LE+SSERAFIM" class="option-img" alt="LE SSERAFIM"><span class="option-text">LE SSERAFIM</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TWS" class="option-img" alt="TWS">
-                    <span class="option-text">TWS</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=TWS" class="option-img" alt="TWS"><span class="option-text">TWS</span>
                 </div>
                 <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BOYNEXTDOOR" class="option-img" alt="BOYNEXTDOOR">
-                    <span class="option-text">BOYNEXTDOOR</span>
+                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=BOYNEXTDOOR" class="option-img" alt="BOYNEXTDOOR"><span class="option-text">BOYNEXTDOOR</span>
                 </div>
             </div>
         </div>
-        <div class="bottom-area">
-            <button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button>
-        </div>
+        <div class="bottom-area"><button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button></div>
     </div>
 
+    <!-- 3단계: 최종 수신자 선택 -->
     <div id="screen3" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>최종 수신자를 선택하세요</h3>
         </div>
         <div class="scroll-content">
             <div class="grid-container" id="memberGrid">
-                <div class="option-item" onclick="selectSingleOption('member', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=YUNAH" class="option-img" alt="YUNAH">
-                    <span class="option-text">YUNAH</span>
-                </div>
-                <div class="option-item" onclick="selectSingleOption('member', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MINJU" class="option-img" alt="MINJU">
-                    <span class="option-text">MINJU</span>
-                </div>
-                <div class="option-item" onclick="selectSingleOption('member', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MOKA" class="option-img" alt="MOKA">
-                    <span class="option-text">MOKA</span>
-                </div>
-                <div class="option-item" onclick="selectSingleOption('member', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=WONHEE" class="option-img" alt="WONHEE">
-                    <span class="option-text">WONHEE</span>
-                </div>
-                <div class="option-item" onclick="selectSingleOption('member', this)">
-                    <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=IROHA" class="option-img" alt="IROHA">
-                    <span class="option-text">IROHA</span>
-                </div>
+                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=YUNAH" class="option-img" alt="YUNAH"><span class="option-text">YUNAH</span></div>
+                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MINJU" class="option-img" alt="MINJU"><span class="option-text">MINJU</span></div>
+                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MOKA" class="option-img" alt="MOKA"><span class="option-text">MOKA</span></div>
+                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=WONHEE" class="option-img" alt="WONHEE"><span class="option-text">WONHEE</span></div>
+                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=IROHA" class="option-img" alt="IROHA"><span class="option-text">IROHA</span></div>
             </div>
         </div>
-        <div class="bottom-area">
-            <button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button>
+        <div class="bottom-area"><button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button></div>
+    </div>
+
+    <!-- 4단계: 감정 선택 -->
+    <div id="screen4" class="screen">
+        <div class="header">
+            <h3><span class="userName"></span> 님,<br>지금 이 순간의 감정을 선택해주세요</h3>
+            <p class="sub-text">선택한 감정은 색으로 기록되며,<br>최대 3개까지 선택 가능합니다.</p>
+        </div>
+        <div class="scroll-content">
+            <div class="emotion-grid">
+                <div class="emotion-btn" data-color="255,105,180" onclick="toggleEmotion(this)">설렘</div>
+                <div class="emotion-btn" data-color="100,149,237" onclick="toggleEmotion(this)">감동</div>
+                <div class="emotion-btn" data-color="255,200,0"   onclick="toggleEmotion(this)">행복</div>
+                <div class="emotion-btn" data-color="255,80,80"   onclick="toggleEmotion(this)">긴장</div>
+                <div class="emotion-btn" data-color="120,200,120" onclick="toggleEmotion(this)">평온</div>
+                <div class="emotion-btn" data-color="160,100,220" onclick="toggleEmotion(this)">아쉬움</div>
+            </div>
+        </div>
+        <div class="bottom-area"><button id="btn4" class="next-btn" onclick="nextStep(5)" disabled>다음 단계</button></div>
+    </div>
+
+    <!-- 5단계: 응원 메시지 작성 -->
+    <div id="screen5" class="screen">
+        <div class="header">
+            <h3><span class="userName"></span> 님,<br>아티스트에게 응원의 말을 남겨주세요</h3>
+            <p class="sub-text">작성된 메시지는 실제 아티스트에게 전달됩니다.<br>최대 100자 작성 가능<br><span style="color:#A855F7;">*부적절한 내용은 전달이 제외될 수 있습니다.</span></p>
+        </div>
+        <div class="scroll-content">
+            <textarea id="messageInput" placeholder="응원의 메시지를 남겨주세요." maxlength="100" oninput="checkMessage()"></textarea>
+        </div>
+        <div class="bottom-area"><button id="btn5" class="next-btn" onclick="submitData()" disabled>아티스트에게 전송하기</button></div>
+    </div>
+
+    <!-- 6단계: 영수증 출력 중 (이미지 추가됨) -->
+    <div id="screen6" class="screen" style="justify-content: center; align-items: center; text-align: center;">
+        <div style="padding: 20px; width: 100%; box-sizing: border-box;">
+            <h3 style="color: #333; font-size: 20px;"><span class="userName"></span> 님,<br>기록이 영수증으로 출력 중입니다</h3>
+            <p class="sub-text" style="margin-bottom: 30px;">이 기록은 월간 아카이브에 포함됩니다.</p>
+            
+            <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%98%81%EC%88%98%EC%A6%9D.png" alt="영수증 디자인" class="result-img receipt-img">
+            
+            <p style="font-weight: bold; color: #777; animation: blink 1.5s infinite; margin-top: 40px; font-size: 18px;">잠시만 기다려주세요</p>
         </div>
     </div>
 
-    <div id="screen4" class="screen">
-        <div class="header">
+    <!-- 7단계: 출력 완료 (이미지 추가됨) -->
+    <div id="screen7" class="screen" style="justify-content: center; align-items: center; text-align: center;">
+        <div style="padding: 20px; width: 100%; box-sizing: border-box;">
+            <h3 style="color: #333; font-size: 22px; margin-bottom: 5px;">기록이 출력되었습니다!</h3>
+            <p style="font-weight: bold; color: #555; font-size: 16px; margin-bottom: 30px;">전광판에서 나의 응원 빛을 확인하세요</p>
+            
+            <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%A0%84%EA%B4%91%ED%8C%90.png" alt="전광판 디자인" class="result-img display-img">
+            
+            <p class="sub-text" style="margin-top: 50px; color: #9CA3AF;">잠시후 초기화면으로 돌아갑니다</p>
+        </div>
+    </div>
+
+    <script>
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }`;
+        document.head.appendChild(style);
+
+        function checkNickname() {
+            const input = document.getElementById('nicknameInput').value;
+            document.getElementById('btn1').disabled = input.trim() === "";
+        }
+
+        function saveNickname() {
+            const nickname = document.getElementById('nicknameInput').value;
+            document.querySelectorAll('.userName').forEach(el => el.innerText = nickname);
+            nextStep(2);
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.screen').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            const nextScreen = document.getElementById('screen' + step);
+            nextScreen.classList.add('active');
+
+            if (step === 6) {
+                setTimeout(() => { nextStep(7); }, 3000);
+            } else if (step === 7) {
+                setTimeout(() => { location.reload(); }, 4000);
+            }
+        }
+
+        function selectSingleOption(type, element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+
+            if (type === 'group') document.getElementById('btn2').disabled = false;
+            if (type === 'member') document.getElementById('btn3').disabled = false;
+        }
+
+        function toggleEmotion(element) {
+            const parent = element.parentElement;
+            const currentSelectedCount = parent.querySelectorAll('.selected').length;
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+            } else {
+                if (currentSelectedCount < 3) {
+                    element.classList.add('selected');
+                } else {
+                    alert("감정은 최대 3개까지만 선택할 수 있습니다.");
+                    return;
+                }
+            }
+            
+            updateMixedColor(parent);
+            
+            const newSelectedCount = parent.querySelectorAll('.selected').length;
+            document.getElementById('btn4').disabled = newSelectedCount === 0;
+        }
+
+        function updateMixedColor(parentElement) {
+            const selectedBtns = parentElement.querySelectorAll('.selected');
+            const allBtns = parentElement.querySelectorAll('.emotion-btn');
+
+            if (selectedBtns.length === 0) {
+                allBtns.forEach(btn => {
+                    btn.style.backgroundColor = 'white';
+                    btn.style.color = '#555';
+                });
+                return;
+            }
+
+            let totalR = 0, totalG = 0, totalB = 0;
+            selectedBtns.forEach(btn => {
+                const rgb = btn.dataset.color.split(',').map(Number);
+                totalR += rgb[0];
+                totalG += rgb[1];
+                totalB += rgb[2];
+            });
+
+            const avgR = Math.round(totalR / selectedBtns.length);
+            const avgG = Math.round(totalG / selectedBtns.length);
+            const avgB = Math.round(totalB / selectedBtns.length);
+            const mixedColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
+
+            allBtns.forEach(btn => {
+                if (btn.classList.contains('selected')) {
+                    btn.style.backgroundColor = mixedColor;
+                    btn.style.color = 'white';
+                } else {
+                    btn.style.backgroundColor = 'white';
+                    btn.style.color = '#555';
+                }
+            });
+        }
+
+        function checkMessage() {
+            const input = document.getElementById('messageInput').value;
+            document.getElementById('btn5').disabled = input.trim() === "";
+        }
+
+        function submitData() {
+            nextStep(6);
+        }
+    </script>
+</body>
+</html>
