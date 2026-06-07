@@ -76,21 +76,31 @@
         }
         textarea { resize: none; height: 100px; }
 
-        /* 하단 '다음 단계' 버튼 */
-        button.next-btn {
+        /* 하단 '다음 단계', '이전 단계' 버튼 분할 설정 */
+        .btn-group {
+            display: flex;
+            gap: 10px;
             width: 100%;
+        }
+        button.next-btn, button.prev-btn {
+            flex: 1; /* 가로 공간을 반반씩 차지 */
             padding: 18px;
             border: none;
             border-radius: 12px;
-            background-color: #9333EA; 
-            color: white;
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
+        }
+        button.next-btn {
+            background-color: #9333EA; 
+            color: white;
             box-shadow: 0 4px 10px rgba(147, 51, 234, 0.3);
         }
-        
+        button.prev-btn {
+            background-color: #E5E7EB;
+            color: #4B5563; /* 어두운 회색 텍스트 */
+        }
         button.next-btn:disabled {
             background-color: #E5E7EB;
             color: #9CA3AF;
@@ -145,7 +155,7 @@
             gap: 15px; 
         }
         .emotion-btn {
-            padding: 35px 0; 
+            padding: 45px 0; 
             border: none;
             border-radius: 16px; 
             background: white;
@@ -178,7 +188,7 @@
 </head>
 <body>
 
-    <!-- 1단계: 닉네임 입력 (즉각 반영을 위해 onkeyup 이벤트 추가) -->
+    <!-- 1단계: 닉네임 입력 -->
     <div id="screen1" class="screen active">
         <div class="scroll-content" style="display: flex; flex-direction: column; justify-content: center;">
             <h3>닉네임을 입력해주세요</h3>
@@ -190,7 +200,7 @@
         </div>
     </div>
 
-    <!-- 2단계: 그룹 선택 (이미지 주소 및 순서 업데이트 완료) -->
+    <!-- 2단계: 그룹 선택 (데이터 그룹 속성 추가됨) -->
     <div id="screen2" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
@@ -198,66 +208,56 @@
         </div>
         <div class="scroll-content">
             <div class="grid-container" id="groupGrid">
-                <!-- BTS -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B0%A9%ED%83%84.png" class="option-img" alt="BTS">
-                    <span class="option-text">BTS</span>
+                <div class="option-item" data-group="BTS" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B0%A9%ED%83%84.png" class="option-img" alt="BTS"><span class="option-text">BTS</span>
                 </div>
-                <!-- 투모로우바이투게더 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EB%B0%94%ED%88%AC.png" class="option-img" alt="TXT">
-                    <span class="option-text">TOMORROW X TOGETHER</span>
+                <div class="option-item" data-group="TXT" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EB%B0%94%ED%88%AC.png" class="option-img" alt="TXT"><span class="option-text">TOMORROW X TOGETHER</span>
                 </div>
-                <!-- 엔하이픈 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%97%94%ED%95%98%EC%9D%B4%ED%94%88.png" class="option-img" alt="ENHYPEN">
-                    <span class="option-text">ENHYPEN</span>
+                <div class="option-item" data-group="ENHYPEN" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%97%94%ED%95%98%EC%9D%B4%ED%94%88.png" class="option-img" alt="ENHYPEN"><span class="option-text">ENHYPEN</span>
                 </div>
-                <!-- 아일릿 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%95%84%EC%9D%BC%EB%A6%BF.png" class="option-img" alt="ILLIT">
-                    <span class="option-text">ILLIT</span>
+                <div class="option-item" data-group="ILLIT" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EC%95%84%EC%9D%BC%EB%A6%BF.png" class="option-img" alt="ILLIT"><span class="option-text">ILLIT</span>
                 </div>
-                <!-- 르세라핌 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%A5%B4%EC%84%B8%EB%9D%BC%ED%95%8C.png" class="option-img" alt="LE SSERAFIM">
-                    <span class="option-text">LE SSERAFIM</span>
+                <div class="option-item" data-group="LE SSERAFIM" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%A5%B4%EC%84%B8%EB%9D%BC%ED%95%8C.png" class="option-img" alt="LE SSERAFIM"><span class="option-text">LE SSERAFIM</span>
                 </div>
-                <!-- 투어스 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EC%96%B4%EC%8A%A4.png" class="option-img" alt="TWS">
-                    <span class="option-text">TWS</span>
+                <div class="option-item" data-group="TWS" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%ED%88%AC%EC%96%B4%EC%8A%A4.png" class="option-img" alt="TWS"><span class="option-text">TWS</span>
                 </div>
-                <!-- 코르티스 (원본 이미지 링크로 변환 적용) -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/main/%EC%BD%94%EB%A5%B4%ED%8B%B0%EC%8A%A4.png" class="option-img" alt="CORTIS">
-                    <span class="option-text">CORTIS</span>
+                <div class="option-item" data-group="CORTIS" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/main/%EC%BD%94%EB%A5%B4%ED%8B%B0%EC%8A%A4.png" class="option-img" alt="CORTIS"><span class="option-text">CORTIS</span>
                 </div>
-                <!-- 보이넥스트도어 -->
-                <div class="option-item" onclick="selectSingleOption('group', this)">
-                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B3%B4%EC%9D%B4%EB%84%A5%EC%8A%A4%ED%8A%B8%EB%8F%84%EC%96%B4.png" class="option-img" alt="BOYNEXTDOOR">
-                    <span class="option-text">BOYNEXTDOOR</span>
+                <div class="option-item" data-group="BOYNEXTDOOR" onclick="selectGroupOption(this)">
+                    <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/%EB%B3%B4%EC%9D%B4%EB%84%A5%EC%8A%A4%ED%8A%B8%EB%8F%84%EC%96%B4.png" class="option-img" alt="BOYNEXTDOOR"><span class="option-text">BOYNEXTDOOR</span>
                 </div>
             </div>
         </div>
-        <div class="bottom-area"><button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button></div>
+        <div class="bottom-area">
+            <div class="btn-group">
+                <button class="prev-btn" onclick="prevStep(1)">이전 단계</button>
+                <button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button>
+            </div>
+        </div>
     </div>
 
-    <!-- 3단계: 최종 수신자 선택 -->
+    <!-- 3단계: 최종 수신자 선택 (내용이 자바스크립트로 자동 채워집니다) -->
     <div id="screen3" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>최종 수신자를 선택하세요</h3>
         </div>
         <div class="scroll-content">
             <div class="grid-container" id="memberGrid">
-                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=YUNAH" class="option-img" alt="YUNAH"><span class="option-text">YUNAH</span></div>
-                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MINJU" class="option-img" alt="MINJU"><span class="option-text">MINJU</span></div>
-                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=MOKA" class="option-img" alt="MOKA"><span class="option-text">MOKA</span></div>
-                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=WONHEE" class="option-img" alt="WONHEE"><span class="option-text">WONHEE</span></div>
-                <div class="option-item" onclick="selectSingleOption('member', this)"><img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=IROHA" class="option-img" alt="IROHA"><span class="option-text">IROHA</span></div>
+                <!-- 선택한 그룹에 따라 자바스크립트가 멤버 이미지를 이곳에 생성합니다 -->
             </div>
         </div>
-        <div class="bottom-area"><button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button></div>
+        <div class="bottom-area">
+            <div class="btn-group">
+                <button class="prev-btn" onclick="prevStep(2)">이전 단계</button>
+                <button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button>
+            </div>
+        </div>
     </div>
 
     <!-- 4단계: 감정 선택 -->
@@ -276,7 +276,12 @@
                 <div class="emotion-btn" data-color="160,100,220" onclick="toggleEmotion(this)">아쉬움</div>
             </div>
         </div>
-        <div class="bottom-area"><button id="btn4" class="next-btn" onclick="nextStep(5)" disabled>다음 단계</button></div>
+        <div class="bottom-area">
+            <div class="btn-group">
+                <button class="prev-btn" onclick="prevStep(3)">이전 단계</button>
+                <button id="btn4" class="next-btn" onclick="nextStep(5)" disabled>다음 단계</button>
+            </div>
+        </div>
     </div>
 
     <!-- 5단계: 응원 메시지 작성 -->
@@ -288,7 +293,12 @@
         <div class="scroll-content">
             <textarea id="messageInput" placeholder="응원의 메시지를 남겨주세요." maxlength="100" oninput="checkMessage()"></textarea>
         </div>
-        <div class="bottom-area"><button id="btn5" class="next-btn" onclick="submitData()" disabled>아티스트에게 전송하기</button></div>
+        <div class="bottom-area">
+            <div class="btn-group">
+                <button class="prev-btn" onclick="prevStep(4)">이전 단계</button>
+                <button id="btn5" class="next-btn" onclick="submitData()" disabled>아티스트에게 전송하기</button>
+            </div>
+        </div>
     </div>
 
     <!-- 6단계: 영수증 출력 중 -->
@@ -316,35 +326,47 @@
     </div>
 
     <script>
+        // 애니메이션용 스타일 동적 추가
         const style = document.createElement('style');
         style.innerHTML = `@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }`;
         document.head.appendChild(style);
 
-        // 닉네임 입력 체크 로직 업데이트
+        // 💡 핵심 추가 기능: 그룹별 멤버 데이터 (영문)
+        const membersData = {
+            "BTS": ["RM", "JIN", "SUGA", "J-HOPE", "JIMIN", "V", "JUNGKOOK"],
+            "TXT": ["SOOBIN", "YEONJUN", "BEOMGYU", "TAEHYUN", "HUENINGKAI"],
+            "ENHYPEN": ["JUNGWON", "JAY", "JAKE", "SUNGHOON", "SUNOO", "NI-KI"],
+            "ILLIT": ["YUNAH", "MINJU", "MOKA", "WONHEE", "IROHA"],
+            "LE SSERAFIM": ["KIM CHAEWON", "SAKURA", "HUH YUNJIN", "KAZUHA", "HONG EUNCHAE"],
+            "TWS": ["SHINYU", "DOHOON", "YOUNGJAE", "HANJIN", "JIHOON", "KYUNGMIN"],
+            "CORTIS": ["MARTIN", "JAMES", "JUHOON", "SUNGHYUN", "GEONHO"],
+            "BOYNEXTDOOR": ["SUNGHO", "RIWOO", "JAEHYUN", "TAESAN", "LEEHAN", "WOONHAK"]
+        };
+
+        // 1단계: 닉네임 입력 체크
         function checkNickname() {
             const inputVal = document.getElementById('nicknameInput').value;
             const btn = document.getElementById('btn1');
-            
-            if (inputVal.trim().length > 0) {
-                btn.disabled = false;
-            } else {
-                btn.disabled = true;
-            }
+            btn.disabled = inputVal.trim().length === 0;
         }
 
+        // 닉네임 저장 및 다음 화면 이동
         function saveNickname() {
             const nickname = document.getElementById('nicknameInput').value;
             document.querySelectorAll('.userName').forEach(el => el.innerText = nickname);
             nextStep(2);
         }
 
+        // 💡 핵심 추가 기능: 이전 단계로 돌아가는 함수
+        function prevStep(step) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('screen' + step).classList.add('active');
+        }
+
+        // 다음 단계로 이동하는 함수
         function nextStep(step) {
-            document.querySelectorAll('.screen').forEach(el => {
-                el.classList.remove('active');
-            });
-            
-            const nextScreen = document.getElementById('screen' + step);
-            nextScreen.classList.add('active');
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('screen' + step).classList.add('active');
 
             if (step === 6) {
                 setTimeout(() => { nextStep(7); }, 3000);
@@ -353,17 +375,54 @@
             }
         }
 
+        // 💡 핵심 추가 기능: 그룹 선택 시 멤버 목록을 생성하는 함수
+        function selectGroupOption(element) {
+            // 그룹 선택 시 스타일 변경
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            // 어떤 그룹이 선택되었는지 데이터 가져오기
+            const selectedGroup = element.getAttribute('data-group');
+            document.getElementById('btn2').disabled = false;
+            
+            // 선택된 그룹에 맞게 멤버 화면(3단계) 미리 채워두기
+            populateMembers(selectedGroup);
+        }
+
+        // 멤버 이미지를 동적으로 생성하여 화면에 뿌려주는 로직
+        function populateMembers(groupName) {
+            const memberGrid = document.getElementById('memberGrid');
+            memberGrid.innerHTML = ''; // 다른 그룹을 눌렀을 때 기존 멤버가 겹치지 않게 초기화
+            
+            const members = membersData[groupName];
+            if (members) {
+                members.forEach(member => {
+                    // 멤버별 임시 플레이스홀더 이미지(이름 포함)를 생성
+                    const html = `
+                        <div class="option-item" onclick="selectSingleOption('member', this)">
+                            <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=${encodeURIComponent(member)}" class="option-img" alt="${member}">
+                            <span class="option-text">${member}</span>
+                        </div>
+                    `;
+                    memberGrid.innerHTML += html;
+                });
+            }
+            
+            // 3단계 진입 시 '다음 단계' 버튼 비활성화 상태로 초기화
+            document.getElementById('btn3').disabled = true;
+        }
+
+        // 3단계 멤버 선택 기능 (단일 선택)
         function selectSingleOption(type, element) {
             const parent = element.parentElement;
-            parent.querySelectorAll('.option-item').forEach(item => {
-                item.classList.remove('selected');
-            });
+            parent.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
             element.classList.add('selected');
 
-            if (type === 'group') document.getElementById('btn2').disabled = false;
             if (type === 'member') document.getElementById('btn3').disabled = false;
         }
 
+        // 4단계 감정 선택 기능 (최대 3개 제한)
         function toggleEmotion(element) {
             const parent = element.parentElement;
             const currentSelectedCount = parent.querySelectorAll('.selected').length;
@@ -385,6 +444,7 @@
             document.getElementById('btn4').disabled = newSelectedCount === 0;
         }
 
+        // 감정 색상 혼합 기능
         function updateMixedColor(parentElement) {
             const selectedBtns = parentElement.querySelectorAll('.selected');
             const allBtns = parentElement.querySelectorAll('.emotion-btn');
@@ -421,6 +481,7 @@
             });
         }
 
+        // 5단계 메시지 입력 체크
         function checkMessage() {
             const input = document.getElementById('messageInput').value;
             document.getElementById('btn5').disabled = input.trim() === "";
