@@ -258,24 +258,32 @@
 
         /* 0단계 인트로 화면 전용 스타일 */
         .intro-logo {
-            width: 160px; /* 로고 크기 (필요시 조절 가능) */
-            margin-bottom: 30px;
+            width: 220px; /* 로고 크기를 기존 160px에서 크게 확대 */
+            margin-bottom: 10px; /* 소제목과 너무 멀어지지 않도록 여백 축소 */
+        }
+        .intro-subtitle {
+            font-size: 13px;
+            color: #6B7280; /* 부드러운 회색 */
+            letter-spacing: -0.5px;
+            margin-bottom: 40px; /* 아래쪽 터치 영역과의 여백 확보 */
         }
         .touch-prompt {
             position: absolute;
             bottom: 80px;
             left: 0; right: 0;
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* 세로(column)에서 가로(row) 배치로 변경! */
+            justify-content: center;
             align-items: center;
-            animation: blink 1.5s infinite; /* 기존 영수증 화면의 깜빡임 효과 재사용 */
+            gap: 10px; /* 문구와 손가락 아이콘 사이의 간격 */
+            animation: blink 1.5s infinite;
             color: #9333EA;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px; /* 터치 문구 크기도 살짝 확대 */
         }
         .touch-icon {
-            width: 40px;
-            margin-top: 15px;
+            width: 35px; /* 가로 배치에 어울리도록 손가락 아이콘 크기 조정 */
+            margin-top: 0px; /* 가로 배치이므로 위쪽 마진 제거 */
         }
     </style>
 </head>
@@ -284,6 +292,9 @@
     <!-- 0단계: 메인 화면 -->
     <div id="screen0" class="screen active" onclick="nextStep(1)" style="cursor: pointer; justify-content: center; align-items: center;">
         <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/KIOSK_Logo.png" alt="KIOSK 로고" class="intro-logo">
+        
+        <div class="intro-subtitle">당신의 응원이 모이는 순간 : HYBE + WEAVE</div>
+        
         <div class="touch-prompt">
             <span>화면을 터치해 주세요</span>
             <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/TOUCH_Icon.png" alt="터치 아이콘" class="touch-icon">
