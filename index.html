@@ -83,7 +83,8 @@
             width: 100%;
         }
         button.next-btn, button.prev-btn {
-            flex: 1; /* 가로 공간을 반반씩 차지 */
+            flex: 1; /* 분할될 때는 반반씩 차지 */
+            width: 100%; /* 단독으로 있을 때는 100% 꽉 채움 (추가된 부분!) */
             padding: 18px;
             border: none;
             border-radius: 12px;
