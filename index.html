@@ -255,12 +255,43 @@
         #screen3 .header {
             padding-top: 150px; /* 이 숫자를 늘리면 더 아래로, 줄이면 위로 올라갑니다 */
         }
+
+        /* 0단계 인트로 화면 전용 스타일 */
+        .intro-logo {
+            width: 160px; /* 로고 크기 (필요시 조절 가능) */
+            margin-bottom: 30px;
+        }
+        .touch-prompt {
+            position: absolute;
+            bottom: 80px;
+            left: 0; right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: blink 1.5s infinite; /* 기존 영수증 화면의 깜빡임 효과 재사용 */
+            color: #9333EA;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .touch-icon {
+            width: 40px;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- 0단계: 메인 화면 -->
+    <div id="screen0" class="screen active" onclick="nextStep(1)" style="cursor: pointer; justify-content: center; align-items: center;">
+        <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/KIOSK_Logo.png" alt="KIOSK 로고" class="intro-logo">
+        <div class="touch-prompt">
+            <span>화면을 터치해 주세요</span>
+            <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/TOUCH_Icon.png" alt="터치 아이콘" class="touch-icon">
+        </div>
+    </div>
+    
     <!-- 1단계: 닉네임 입력 -->
-    <div id="screen1" class="screen active">
+    <div id="screen1" class="screen">
         <div class="scroll-content" style="display: flex; flex-direction: column; justify-content: center;">
             <h3>닉네임을 입력해주세요</h3>
             <p class="sub-text">한글, 영문(소문자), 숫자만 사용 가능(10자 이내)</p>
