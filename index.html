@@ -409,17 +409,121 @@
         style.innerHTML = `@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }`;
         document.head.appendChild(style);
 
-        // 💡 핵심 추가 기능: 그룹별 멤버 데이터 (영문)
-        const membersData = {
-            "BTS": ["RM", "JIN", "SUGA", "J-HOPE", "JIMIN", "V", "JUNGKOOK"],
-            "TXT": ["SOOBIN", "YEONJUN", "BEOMGYU", "TAEHYUN", "HUENINGKAI"],
-            "ENHYPEN": ["JUNGWON", "JAY", "JAKE", "SUNGHOON", "SUNOO", "NI-KI"],
-            "ILLIT": ["YUNAH", "MINJU", "MOKA", "WONHEE", "IROHA"],
-            "LE SSERAFIM": ["KIM CHAEWON", "SAKURA", "HUH YUNJIN", "KAZUHA", "HONG EUNCHAE"],
-            "TWS": ["SHINYU", "DOHOON", "YOUNGJAE", "HANJIN", "JIHOON", "KYUNGMIN"],
-            "CORTIS": ["MARTIN", "JAMES", "JUHOON", "SUNGHYUN", "GEONHO"],
-            "BOYNEXTDOOR": ["SUNGHO", "RIWOO", "JAEHYUN", "TAESAN", "LEEHAN", "WOONHAK"]
+        // 💡 1. 그룹별 배경 이미지 데이터 (이곳에 실제 그룹 단체컷 링크를 넣으세요!)
+        const groupBackgrounds = {
+            "BTS": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=BTS+Group",
+            "TXT": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=TXT+Group",
+            "ENHYPEN": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=ENHYPEN+Group",
+            "ILLIT": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=ILLIT+Group",
+            "LE SSERAFIM": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=LE+SSERAFIM+Group",
+            "TWS": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=TWS+Group",
+            "CORTIS": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=CORTIS+Group",
+            "BOYNEXTDOOR": "https://via.placeholder.com/360x300/F3E8FF/9333EA?text=BND+Group"
         };
+
+        // 💡 2. 멤버별 이름 및 이미지 데이터 구조 (img 속성에 개별 얼굴 사진 링크를 넣으세요!)
+        const membersData = {
+            "BTS": [
+                { name: "RM", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=RM" },
+                { name: "JIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JIN" },
+                { name: "SUGA", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SUGA" },
+                { name: "J-HOPE", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=J-HOPE" },
+                { name: "JIMIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JIMIN" },
+                { name: "V", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=V" },
+                { name: "JUNGKOOK", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JUNGKOOK" }
+            ],
+            "TXT": [
+                { name: "SOOBIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SOOBIN" },
+                { name: "YEONJUN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=YEONJUN" },
+                { name: "BEOMGYU", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=BEOMGYU" },
+                { name: "TAEHYUN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=TAEHYUN" },
+                { name: "HUENINGKAI", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=HUENINGKAI" }
+            ],
+            "ENHYPEN": [
+                { name: "JUNGWON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JUNGWON" },
+                { name: "JAY", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JAY" },
+                { name: "JAKE", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JAKE" },
+                { name: "SUNGHOON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SUNGHOON" },
+                { name: "SUNOO", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SUNOO" },
+                { name: "NI-KI", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=NI-KI" }
+            ],
+            "ILLIT": [
+                { name: "YUNAH", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=YUNAH" },
+                { name: "MINJU", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=MINJU" },
+                { name: "MOKA", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=MOKA" },
+                { name: "WONHEE", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=WONHEE" },
+                { name: "IROHA", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=IROHA" }
+            ],
+            "LE SSERAFIM": [
+                { name: "KIM CHAEWON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=CHAEWON" },
+                { name: "SAKURA", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SAKURA" },
+                { name: "HUH YUNJIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=YUNJIN" },
+                { name: "KAZUHA", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=KAZUHA" },
+                { name: "HONG EUNCHAE", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=EUNCHAE" }
+            ],
+            "TWS": [
+                { name: "SHINYU", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SHINYU" },
+                { name: "DOHOON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=DOHOON" },
+                { name: "YOUNGJAE", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=YOUNGJAE" },
+                { name: "HANJIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=HANJIN" },
+                { name: "JIHOON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JIHOON" },
+                { name: "KYUNGMIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=KYUNGMIN" }
+            ],
+            "CORTIS": [
+                { name: "MARTIN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=MARTIN" },
+                { name: "JAMES", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JAMES" },
+                { name: "JUHOON", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JUHOON" },
+                { name: "SUNGHYUN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SUNGHYUN" },
+                { name: "GEONHO", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=GEONHO" }
+            ],
+            "BOYNEXTDOOR": [
+                { name: "SUNGHO", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=SUNGHO" },
+                { name: "RIWOO", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=RIWOO" },
+                { name: "JAEHYUN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=JAEHYUN" },
+                { name: "TAESAN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=TAESAN" },
+                { name: "LEEHAN", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=LEEHAN" },
+                { name: "WOONHAK", img: "https://via.placeholder.com/300/E9D5FF/9333EA?text=WOONHAK" }
+            ]
+        };
+
+        // 그룹 선택 시 호출되는 함수
+        function selectGroupOption(element) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            const selectedGroup = element.getAttribute('data-group');
+            document.getElementById('btn2').disabled = false;
+            
+            // 👉 선택한 그룹에 맞춰 3단계 배경 이미지 변경!
+            if (groupBackgrounds[selectedGroup]) {
+                document.getElementById('groupBgImage').style.backgroundImage = `url('${groupBackgrounds[selectedGroup]}')`;
+            }
+            
+            populateMembers(selectedGroup);
+        }
+
+        // 멤버 이미지를 동적으로 생성하여 화면에 뿌려주는 로직
+        function populateMembers(groupName) {
+            const memberGrid = document.getElementById('memberGrid');
+            memberGrid.innerHTML = ''; 
+            
+            const members = membersData[groupName];
+            if (members) {
+                members.forEach(member => {
+                    // 👉 member.img 속성으로 개별 얼굴 사진 URL을 불러옵니다!
+                    const html = `
+                        <div class="option-item" onclick="selectSingleOption('member', this)">
+                            <img src="${member.img}" class="option-img" alt="${member.name}">
+                            <span class="option-text">${member.name}</span>
+                        </div>
+                    `;
+                    memberGrid.innerHTML += html;
+                });
+            }
+            
+            document.getElementById('btn3').disabled = true;
+        }
 
         // 1단계: 닉네임 입력 체크
         function checkNickname() {
@@ -451,44 +555,6 @@
             } else if (step === 7) {
                 setTimeout(() => { location.reload(); }, 4000);
             }
-        }
-
-        // 💡 핵심 추가 기능: 그룹 선택 시 멤버 목록을 생성하는 함수
-        function selectGroupOption(element) {
-            // 그룹 선택 시 스타일 변경
-            const parent = element.parentElement;
-            parent.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
-            element.classList.add('selected');
-            
-            // 어떤 그룹이 선택되었는지 데이터 가져오기
-            const selectedGroup = element.getAttribute('data-group');
-            document.getElementById('btn2').disabled = false;
-            
-            // 선택된 그룹에 맞게 멤버 화면(3단계) 미리 채워두기
-            populateMembers(selectedGroup);
-        }
-
-        // 멤버 이미지를 동적으로 생성하여 화면에 뿌려주는 로직
-        function populateMembers(groupName) {
-            const memberGrid = document.getElementById('memberGrid');
-            memberGrid.innerHTML = ''; // 다른 그룹을 눌렀을 때 기존 멤버가 겹치지 않게 초기화
-            
-            const members = membersData[groupName];
-            if (members) {
-                members.forEach(member => {
-                    // 멤버별 임시 플레이스홀더 이미지(이름 포함)를 생성
-                    const html = `
-                        <div class="option-item" onclick="selectSingleOption('member', this)">
-                            <img src="https://via.placeholder.com/300/E9D5FF/9333EA?text=${encodeURIComponent(member)}" class="option-img" alt="${member}">
-                            <span class="option-text">${member}</span>
-                        </div>
-                    `;
-                    memberGrid.innerHTML += html;
-                });
-            }
-            
-            // 3단계 진입 시 '다음 단계' 버튼 비활성화 상태로 초기화
-            document.getElementById('btn3').disabled = true;
         }
 
         // 3단계 멤버 선택 기능 (단일 선택)
