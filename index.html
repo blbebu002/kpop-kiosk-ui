@@ -223,8 +223,8 @@
             margin-top: 10px;
         }
 
-        /* 3단계 상세 화면 전용 배경 및 그라데이션 */
-        #screen3 {
+        /* 4단계 상세 화면 전용 배경 및 그라데이션 */
+        #screen4 {
             position: relative; /* 배경 이미지를 깔기 위한 기준점 */
         }
         .bg-overlay {
@@ -245,62 +245,59 @@
             background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 35%);
             z-index: 0;
         }
+        /* 4단계 상세 화면 전용 배경 및 여백 (기존 3단계에서 이동) */
         /* 콘텐츠가 배경 이미지에 가려지지 않도록 앞으로 당겨오기 */
-        #screen3 .scroll-content, #screen3 .bottom-area {
+        #screen4 .scroll-content, #screen4 .bottom-area {
             position: relative;
             z-index: 1;
         }
-
-        /* 3단계 화면 상단 여백 확보 (배경 단체샷 얼굴이 잘 보이도록) */
-        #screen3 .header {
-            padding-top: 150px; /* 이 숫자를 늘리면 더 아래로, 줄이면 위로 올라갑니다 */
+        #screen4 .header {
+            padding-top: 180px; 
         }
-
+        
         /* 0단계 인트로 화면 전용 스타일 */
         .intro-logo {
-            width: 220px; /* 로고 크기를 기존 160px에서 크게 확대 */
-            margin-bottom: 10px; /* 소제목과 너무 멀어지지 않도록 여백 축소 */
+            width: 280px; /* 로고 크기를 대폭 확대 (기존 220px -> 280px) */
+            margin-bottom: 8px; /* 로고와 소제목 사이 여백 미세 조정 */
         }
         .intro-subtitle {
-            font-size: 13px;
-            color: #6B7280; /* 부드러운 회색 */
+            font-size: 11px; /* 소제목 크기 축소 (기존 13px -> 11px) */
+            color: #6B7280; 
             letter-spacing: -0.5px;
-            margin-bottom: 40px; /* 아래쪽 터치 영역과의 여백 확보 */
+            margin-bottom: 40px; 
         }
         .touch-prompt {
             position: absolute;
             bottom: 80px;
             left: 0; right: 0;
             display: flex;
-            flex-direction: row; /* 세로(column)에서 가로(row) 배치로 변경! */
+            flex-direction: row; 
             justify-content: center;
             align-items: center;
-            gap: 5px; /* 문구와 손가락 아이콘 사이의 간격 */
+            gap: 0px; /* 기본 간격을 완전히 없앱니다 */
             animation: blink 1.5s infinite;
             color: #9333EA;
             font-weight: bold;
-            font-size: 18px; /* 터치 문구 크기도 살짝 확대 */
+            font-size: 18px; 
         }
         .touch-icon {
-            width: 90px; /* 가로 배치에 어울리도록 손가락 아이콘 크기 조정 */
-            margin-top: 0px; /* 가로 배치이므로 위쪽 마진 제거 */
+            width: 55px; /* 파일 내 실제 손가락이 작으므로 전체 크기를 넉넉하게 키웁니다 */
+            margin-left: -12px; /* 핵심 포인트: 마이너스 여백을 주어 투명한 공간을 무시하고 글씨 쪽으로 바짝 당겨옵니다 */
         }
     </style>
 </head>
 <body>
 
-    <!-- 0단계: 메인 화면 -->
+    <!-- 0단계: 시작 화면 (화면 전체가 터치 영역) -->
     <div id="screen0" class="screen active" onclick="nextStep(1)" style="cursor: pointer; justify-content: center; align-items: center;">
         <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/KIOSK_Logo.png" alt="KIOSK 로고" class="intro-logo">
-        
         <div class="intro-subtitle">당신의 응원이 모이는 순간 : HYBE + WEAVE</div>
-        
         <div class="touch-prompt">
             <span>화면을 터치해 주세요</span>
             <img src="https://raw.githubusercontent.com/blbebu002/kpop-kiosk-ui/refs/heads/main/TOUCH_Icon.png" alt="터치 아이콘" class="touch-icon">
         </div>
     </div>
-    
+
     <!-- 1단계: 닉네임 입력 -->
     <div id="screen1" class="screen">
         <div class="scroll-content" style="display: flex; flex-direction: column; justify-content: center;">
@@ -313,8 +310,32 @@
         </div>
     </div>
 
-    <!-- 2단계: 그룹 선택 (데이터 그룹 속성 추가됨) -->
+    <!-- 2단계: 감정 선택 (기존 4단계에서 이동) -->
     <div id="screen2" class="screen">
+        <div class="header">
+            <h3><span class="userName"></span> 님,<br>지금 이 순간의 감정을 선택해주세요</h3>
+            <p class="sub-text">선택한 감정은 색으로 기록되며,<br>최대 3개까지 선택 가능합니다.</p>
+        </div>
+        <div class="scroll-content">
+            <div class="emotion-grid">
+                <div class="emotion-btn" data-color="255,105,180" onclick="toggleEmotion(this)">설렘</div>
+                <div class="emotion-btn" data-color="100,149,237" onclick="toggleEmotion(this)">감동</div>
+                <div class="emotion-btn" data-color="255,200,0"   onclick="toggleEmotion(this)">행복</div>
+                <div class="emotion-btn" data-color="255,80,80"   onclick="toggleEmotion(this)">긴장</div>
+                <div class="emotion-btn" data-color="120,200,120" onclick="toggleEmotion(this)">평온</div>
+                <div class="emotion-btn" data-color="160,100,220" onclick="toggleEmotion(this)">아쉬움</div>
+            </div>
+        </div>
+        <div class="bottom-area">
+            <div class="btn-group">
+                <button class="prev-btn" onclick="prevStep(1)">이전 단계</button>
+                <button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3단계: 그룹 선택 (기존 2단계에서 이동) -->
+    <div id="screen3" class="screen">
         <div class="header">
             <h3><span class="userName"></span> 님,<br>어느 그룹에게 메시지를 보낼까요?</h3>
             <p class="sub-text">원하시는 그룹을 선택해주세요. (아래로 스크롤)</p>
@@ -349,14 +370,14 @@
         </div>
         <div class="bottom-area">
             <div class="btn-group">
-                <button class="prev-btn" onclick="prevStep(1)">이전 단계</button>
-                <button id="btn2" class="next-btn" onclick="nextStep(3)" disabled>다음 단계</button>
+                <button class="prev-btn" onclick="prevStep(2)">이전 단계</button>
+                <button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button>
             </div>
         </div>
     </div>
 
-    <!-- 3단계: 최종 수신자 선택 (내용이 자바스크립트로 자동 채워집니다) -->
-    <div id="screen3" class="screen">
+    <!-- 4단계: 최종 수신자 선택 (기존 3단계에서 이동) -->
+    <div id="screen4" class="screen">
         <div id="groupBgImage" class="bg-overlay"></div>
         <div class="bg-gradient"></div>
 
@@ -365,30 +386,7 @@
         </div>
         <div class="scroll-content">
             <div class="grid-container" id="memberGrid">
-                </div>
-        </div>
-        <div class="bottom-area">
-            <div class="btn-group">
-                <button class="prev-btn" onclick="prevStep(2)">이전 단계</button>
-                <button id="btn3" class="next-btn" onclick="nextStep(4)" disabled>다음 단계</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4단계: 감정 선택 -->
-    <div id="screen4" class="screen">
-        <div class="header">
-            <h3><span class="userName"></span> 님,<br>지금 이 순간의 감정을 선택해주세요</h3>
-            <p class="sub-text">선택한 감정은 색으로 기록되며,<br>최대 3개까지 선택 가능합니다.</p>
-        </div>
-        <div class="scroll-content">
-            <div class="emotion-grid">
-                <div class="emotion-btn" data-color="255,105,180" onclick="toggleEmotion(this)">설렘</div>
-                <div class="emotion-btn" data-color="100,149,237" onclick="toggleEmotion(this)">감동</div>
-                <div class="emotion-btn" data-color="255,200,0"   onclick="toggleEmotion(this)">행복</div>
-                <div class="emotion-btn" data-color="255,80,80"   onclick="toggleEmotion(this)">긴장</div>
-                <div class="emotion-btn" data-color="120,200,120" onclick="toggleEmotion(this)">평온</div>
-                <div class="emotion-btn" data-color="160,100,220" onclick="toggleEmotion(this)">아쉬움</div>
+                <!-- 선택한 그룹에 따라 자바스크립트가 멤버 이미지를 이곳에 생성합니다 -->
             </div>
         </div>
         <div class="bottom-area">
@@ -407,7 +405,6 @@
         </div>
         <div class="scroll-content">
             <textarea id="messageInput" placeholder="응원의 메시지를 남겨주세요." maxlength="100" oninput="checkMessage()"></textarea>
-            
             <p style="font-size: 11px; color: #A855F7; text-align: left; margin-top: 0px; padding-left: 5px;">*부적절한 내용은 전달이 제외될 수 있습니다.</p>
         </div>
         <div class="bottom-area">
@@ -542,9 +539,8 @@
             element.classList.add('selected');
             
             const selectedGroup = element.getAttribute('data-group');
-            document.getElementById('btn2').disabled = false;
+            document.getElementById('btn3').disabled = false; 
             
-            // 👉 선택한 그룹에 맞춰 3단계 배경 이미지 변경!
             if (groupBackgrounds[selectedGroup]) {
                 document.getElementById('groupBgImage').style.backgroundImage = `url('${groupBackgrounds[selectedGroup]}')`;
             }
@@ -560,7 +556,6 @@
             const members = membersData[groupName];
             if (members) {
                 members.forEach(member => {
-                    // 👉 member.img 속성으로 개별 얼굴 사진 URL을 불러옵니다!
                     const html = `
                         <div class="option-item" onclick="selectSingleOption('member', this)">
                             <img src="${member.img}" class="option-img" alt="${member.name}">
@@ -571,7 +566,7 @@
                 });
             }
             
-            document.getElementById('btn3').disabled = true;
+            document.getElementById('btn4').disabled = true; 
         }
 
         // 1단계: 닉네임 입력 체크
@@ -606,16 +601,16 @@
             }
         }
 
-        // 3단계 멤버 선택 기능 (단일 선택)
+        // 4단계 멤버 선택 기능 (단일 선택)
         function selectSingleOption(type, element) {
             const parent = element.parentElement;
             parent.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
             element.classList.add('selected');
 
-            if (type === 'member') document.getElementById('btn3').disabled = false;
+            if (type === 'member') document.getElementById('btn4').disabled = false; 
         }
 
-        // 4단계 감정 선택 기능 (최대 3개 제한)
+        // 2단계 감정 선택 기능 (최대 3개 제한)
         function toggleEmotion(element) {
             const parent = element.parentElement;
             const currentSelectedCount = parent.querySelectorAll('.selected').length;
@@ -626,7 +621,7 @@
                 if (currentSelectedCount < 3) {
                     element.classList.add('selected');
                 } else {
-                    showCustomAlert(); // 예쁜 팝업창 띄우기
+                    showCustomAlert();
                     return;
                 }
             }
@@ -634,7 +629,7 @@
             updateMixedColor(parent);
             
             const newSelectedCount = parent.querySelectorAll('.selected').length;
-            document.getElementById('btn4').disabled = newSelectedCount === 0;
+            document.getElementById('btn2').disabled = newSelectedCount === 0; 
         }
 
         // 감정 색상 혼합 기능
